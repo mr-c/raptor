@@ -226,6 +226,37 @@ void init_build_parser(sharg::parser & parser, build_arguments & arguments)
     parser.add_flag(
         arguments.compressed,
         sharg::config{.short_id = '\0', .long_id = "compressed", .description = "Build a compressed index."});
+
+    // Adding additional cwl information that currently aren't supported by sharg and tdl.
+    tdl::post_process_cwl = [](YAML::Node& node) {
+        node["requirements"] = YAML::Load(R"-(
+                                              InlineJavascriptRequirement: {}
+                                              InitialWorkDirRequirement:
+                                                listing:
+                                                  - entryname: input_bins_filepaths.txt
+                                                    entry: |
+                                                      ${
+                                                         var bins = "";
+                                                         for (var i = 0; i < inputs.sequences.length; i++) {
+                                                            var currentBin = inputs.sequences[i];
+                                                            for (var j = 0; j < currentBin.length; j++) {
+                                                              bins += currentBin[j].path + " ";
+                                                            }
+                                                            bins += "\n";
+                                                         }
+                                                         return bins;
+                                                      }
+                                            )-");
+        node["outputs"] = YAML::Load(R"-(
+                                         index:
+                                           type: File
+                                           outputBinding:
+                                             glob: $(inputs.output)
+                                       )-");
+        node["arguments"] = YAML::Load(R"-(
+                                            - input_bins_filepaths.txt
+                                          )-");
+    };
 }
 
 bool input_is_pack_file(std::filesystem::path const & path)

@@ -425,7 +425,7 @@ if (RAPTOR_FOUND AND NOT TARGET raptor::raptor)
     target_compile_definitions (raptor_raptor INTERFACE ${RAPTOR_DEFINITIONS})
     target_compile_options (raptor_raptor INTERFACE ${RAPTOR_CXX_FLAGS_LIST})
     target_link_options (raptor_raptor INTERFACE ${RAPTOR_CXX_FLAGS_LIST})
-    target_link_libraries (raptor_raptor INTERFACE "${RAPTOR_LIBRARIES}")
+    target_link_libraries (raptor_raptor INTERFACE "${RAPTOR_LIBRARIES}" sharg::sharg)
     # include raptor/include/ as -I, because raptor should never produce warnings.
     target_include_directories (raptor_raptor INTERFACE "${RAPTOR_INCLUDE_DIR}")
     # include everything except raptor/include/ as -isystem, i.e.

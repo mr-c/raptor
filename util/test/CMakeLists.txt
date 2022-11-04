@@ -9,6 +9,8 @@ cmake_minimum_required (VERSION 3.18)
 
 project (raptor_utility_test)
 
+set (SHARG_HINT_TDL "${CMAKE_CURRENT_SOURCE_DIR}/../../lib/tool_description_lib")
+
 get_filename_component (RAPTOR_UTIL_ROOT "${CMAKE_CURRENT_LIST_DIR}/../dummy" DIRECTORY)
 
 option (RAPTOR_UTILITY_BUILD_iScience_APPS "" OFF)
