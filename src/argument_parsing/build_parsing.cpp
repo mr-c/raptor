@@ -248,13 +248,34 @@ void init_build_parser(sharg::parser & parser, build_arguments & arguments)
                                                          return bins;
                                                       }
                                             )-");
+        auto inputs = node["inputs"];
+        for (std::size_t i = 0; i < inputs.size(); i++)
+        {
+            if (inputs[i]["id"].as<std::string>() == "input")
+            {
+                inputs.remove(i);
+            }
+            if (inputs[i]["id"].as<std::string>() == "output")
+            {
+                inputs[i]["id"] = "output_name";
+            }
+        }
+        node["inputs"].push_back(YAML::Load(R"-(
+                                                id: sequences
+                                                type:
+                                                  type: array
+                                                  items:
+                                                    type: array
+                                                    items: File
+                                               )-"));
         node["outputs"] = YAML::Load(R"-(
                                          index:
                                            type: File
                                            outputBinding:
-                                             glob: $(inputs.output)
+                                             glob: $(inputs.output_name)
                                        )-");
         node["arguments"] = YAML::Load(R"-(
+                                            - --input
                                             - input_bins_filepaths.txt
                                           )-");
     };

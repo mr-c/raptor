@@ -120,3 +120,15 @@ jobs:
           cd build
           ctest . -j2 --output-on-failure
 
+      - name: Install pipx & cwltool
+        run: |
+          sudo apt-get install --yes pipx
+          pipx install cwltool
+
+      - name: extract CWL descriptions
+        run: |
+          build/bin/raptor build --export-help cwl > raptor/raptor.cwl
+          cd raptor
+          export PATH=$PATH:$PWD/../build/bin
+          cwltool --validate raptor.cwl
+          cwltool raptor.cwl workflow/cwl/tests/raptor-build-0_bins_window_19.yml
