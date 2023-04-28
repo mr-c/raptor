@@ -80,6 +80,7 @@ requirements:
 arguments:
   - prefix: --threads
     valueFrom: $(runtime.cores)
+  - --input
   - input_bins_filepaths.txt
 
 outputs:

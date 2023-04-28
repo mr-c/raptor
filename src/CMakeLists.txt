@@ -16,6 +16,7 @@ include (FetchContent)
 FetchContent_Declare (raptor_chopper_project URL "${RAPTOR_SUBMODULES_DIR}/chopper")
 
 set (SEQAN3_SUBMODULES_DIR "${RAPTOR_SUBMODULES_DIR}")
+set (SHARG_HINT_TDL "${CMAKE_CURRENT_SOURCE_DIR}/../lib/tool_description_lib")
 set (CHOPPER_SUBMODULES_DIR
      "${RAPTOR_SUBMODULES_DIR}"
      CACHE STRING "Directory containing submodules."
