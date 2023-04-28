@@ -228,7 +228,8 @@ void init_build_parser(sharg::parser & parser, build_arguments & arguments)
         sharg::config{.short_id = '\0', .long_id = "compressed", .description = "Build a compressed index."});
 
     // Adding additional cwl information that currently aren't supported by sharg and tdl.
-    tdl::post_process_cwl = [](YAML::Node& node) {
+    tdl::post_process_cwl = [](YAML::Node & node)
+    {
         node["requirements"] = YAML::Load(R"-(
                                               InlineJavascriptRequirement: {}
                                               InitialWorkDirRequirement:
